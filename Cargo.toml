@@ -1,0 +1,52 @@
+[package]
+name = "drand-oracle-p2"
+version = "3.1.1"
+authors = ["0xantman <antho74830@gmail.com>"]
+edition = "2018"
+
+exclude = [
+  # Those files are rust-optimizer artifacts. You might want to commit them for convenience but they should not be part of the source code publication.
+  "contract.wasm",
+  "hash.txt",
+]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[profile.release]
+opt-level = 3
+debug = false
+rpath = false
+lto = true
+debug-assertions = false
+codegen-units = 1
+panic = 'abort'
+incremental = false
+overflow-checks = true
+
+[features]
+# for more explicit tests, cargo test --features=backtraces
+backtraces = ["cosmwasm-std/backtraces"]
+
+[dependencies]
+cosmwasm-std = { version = "0.16.0", features = ["iterator"]  }
+cw-storage-plus = { version = "0.9.1", features = ["iterator"] }
+schemars = "0.8.6"
+serde = { version = "1.0.130", default-features = false, features = ["derive"] }
+thiserror = { version = "1.0.29" }
+# Drand dependencies
+fff = "0.2.0"
+groupy = "0.3.0"
+paired = "0.21"
+sha2 = "0.9"
+hex = { version = "0.4", optional = true }
+wasm-bindgen = { version = "0.2.67", optional = true }
+drand-verify = "0.1.0"
+
+[dev-dependencies]
+cosmwasm-schema = { version = "0.16.0" }
+# Drand dependencies
+hex = "0.4"
+hex-literal = "0.3.1"
